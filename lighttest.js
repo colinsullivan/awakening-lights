@@ -3,7 +3,8 @@ var OPC = new require('./opc'),
   client = new OPC('localhost', 7890);
 
 var actual_pixels = [];
-for (i = 0; i < 80; i++) {
+const numPixels = 80;
+for (i = 0; i < numPixels; i++) {
   actual_pixels.push([0, 0, 0]);
 }
 
@@ -15,7 +16,7 @@ var pixel_map = function (pixel) {
 // main animation loop
 function draw () {
   var t = new Date().getTime(),
-    pixels,
+    pixels = actual_pixels,
     i;
 
   //currentAnimation.tick(t);
