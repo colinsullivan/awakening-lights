@@ -14,10 +14,17 @@ class App extends Component {
       }
     };
 
+    var ws = new WebSocket(`ws://${window.location.hostname}:8080`);
+    this.ws = ws;
+    ws.onerror = () => console.log('WebSocket error');
+    ws.onopen = () => console.log('WebSocket connection established');
+    ws.onclose = () => console.log('WebSocket connection closed');
+
   }
   handleColorChange (color, e) {
-    console.log("color");
-    console.log(color);
+    this.ws.send(JSON.stringify({
+      color: color
+    }));
   }
   render() {
     return (

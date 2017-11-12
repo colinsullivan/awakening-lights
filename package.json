@@ -21,5 +21,6 @@
   },
   "babel": {
       "presets": ["env"]
-  }
+  },
+  "proxy": "http://localhost:8080"
 }
