@@ -1,0 +1,5 @@
+---
+- name: Install fcserver
+  git:
+    repo: https://github.com/scanlime/fadecandy.git
+    dest: /usr/local/share/fadecandy

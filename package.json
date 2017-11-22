@@ -14,6 +14,7 @@
   },
   "scripts": {
     "start": "react-scripts start",
+    "start_fadecandy": "./git_modules/fadecandy/bin/fcserver-osx",
     "dev_start_server": "babel-node server_main.js",
     "build": "react-scripts build",
     "test": "react-scripts test --env=jsdom",
