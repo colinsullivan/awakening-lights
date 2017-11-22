@@ -1,0 +1,21 @@
+---
+- name: download
+  get_url:
+    url: https://nodejs.org/dist/v7.9.0/node-v7.9.0-linux-armv6l.tar.gz
+    dest: /tmp/
+- name: untar
+  unarchive:
+    src: /tmp/node-v7.9.0-linux-armv6l.tar.gz
+    remote_src: yes
+    dest: /tmp/
+- name: install
+  synchronize:
+    src: "/tmp/node-v7.9.0-linux-armv6l/{{item}}/"
+    dest: "/usr/local/{{item}}"
+    recursive: yes
+  delegate_to: "{{ inventory_hostname }}"
+  with_items:
+    - bin
+    - include
+    - lib
+    - share
