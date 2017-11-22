@@ -3,3 +3,8 @@
   become: true
   roles:
     - fadecandy
+    - nodejs
+- hosts: all
+  become: pi
+  roles:
+    - awakening-lights
