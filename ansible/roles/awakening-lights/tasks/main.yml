@@ -1,5 +1,5 @@
 ---
-- name: install awakening-lights
+- name: install / update awakening-lights
   git:
     repo: https://github.com/colinsullivan/awakening-lights.git
-    dest: /home/pi/awakening-lights
+    dest: "{{ awakening_lights_install_path }}"

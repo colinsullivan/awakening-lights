@@ -16,7 +16,9 @@
     "start": "react-scripts start",
     "start_fadecandy": "./git_modules/fadecandy/bin/fcserver-osx",
     "dev_start_server": "babel-node server_main.js",
-    "build": "react-scripts build",
+    "build_react": "react-scripts build",
+    "build_server": "babel server_main.js --out-file build/server_main.js",
+    "build": "npm run build_react && npm run build_server",
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject"
   },

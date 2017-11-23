@@ -4,9 +4,9 @@ Description=FadecandyServer
 [Service]
 TimeoutStartSec=0
 {% if fadecandy_config_file_path %}
-ExecStart=/usr/local/share/fadecandy/bin/fcserver-rpi {{ fadecandy_config_file_path }}
+ExecStart={{ fadecandy_install_dir }}/bin/fcserver-rpi {{ fadecandy_config_file_path }}
 {% else %}
-ExecStart=/usr/local/share/fadecandy/bin/fcserver-rpi
+ExecStart={{ fadecandy_install_dir }}/bin/fcserver-rpi
 {% endif %}
 
 [Install]

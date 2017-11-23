@@ -2,7 +2,7 @@
 - name: Install fcserver
   git:
     repo: https://github.com/scanlime/fadecandy.git
-    dest: /usr/local/share/fadecandy
+    dest: "{{ fadecandy_install_dir }}"
 - name: Install systemd service
   template:
     src: fadecandy.service.j2
@@ -16,3 +16,7 @@
     daemon_reload: yes
     enabled: yes
     state: started
+- name: fadecandy config
+  template:
+    src: default.json.j2
+    dest: /etc/fadecandy.json
