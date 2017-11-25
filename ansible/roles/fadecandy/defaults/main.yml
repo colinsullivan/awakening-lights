@@ -1,4 +1,4 @@
-fadecandy_config_file_path: false
+fadecandy_config_file_path: /etc/fadecandy.json
 fadecandy_install_dir: /usr/local/share/fadecandy
 fadecandy_config:
     listen: ["127.0.0.1", 7890]

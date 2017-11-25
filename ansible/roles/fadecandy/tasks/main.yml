@@ -10,6 +10,7 @@
     mode: 0644
     owner: root
     group: root
+  register: fadecandy_service
 - name: enable systemd service
   systemd:
     name: fadecandy
@@ -19,4 +20,10 @@
 - name: fadecandy config
   template:
     src: fadecandy.json.j2
-    dest: /etc/fadecandy.json
+    dest: "{{ fadecandy_config_file_path }}"
+  register: fadecandy_config
+- name: restart service
+  systemd:
+    name: fadecandy
+    state: restarted
+  when: fadecandy_config.changed or fadecandy_service.changed
