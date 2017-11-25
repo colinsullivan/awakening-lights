@@ -1,21 +1,17 @@
 ---
-- name: download
-  get_url:
-    url: https://nodejs.org/dist/v7.9.0/node-v7.9.0-linux-armv6l.tar.gz
-    dest: /tmp/
-- name: untar
-  unarchive:
-    src: /tmp/node-v7.9.0-linux-armv6l.tar.gz
-    remote_src: yes
-    dest: /tmp/
-- name: install
-  synchronize:
-    src: "/tmp/node-v7.9.0-linux-armv6l/{{item}}/"
-    dest: "/usr/local/{{item}}"
-    recursive: yes
-  delegate_to: "{{ inventory_hostname }}"
+- name: nodesource apt key
+  apt_key:
+    url: https://deb.nodesource.com/gpgkey/nodesource.gpg.key
+    state: present
+- name: nodesource apt sources
+  apt_repository:
+    repo: "{{ item }}"
+    state: present
   with_items:
-    - bin
-    - include
-    - lib
-    - share
+    - deb https://deb.nodesource.com/node_8.x stretch main
+    - deb-src https://deb.nodesource.com/node_8.x stretch main
+- name: node install
+  apt:
+    update_cache: yes
+    name: nodejs
+    state: present
