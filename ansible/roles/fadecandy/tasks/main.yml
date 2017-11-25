@@ -18,5 +18,5 @@
     state: started
 - name: fadecandy config
   template:
-    src: default.json.j2
+    src: fadecandy.json.j2
     dest: /etc/fadecandy.json
