@@ -22,6 +22,25 @@ app.use(function (req, res) {
 const server = http.createServer(app);
 const wss = new WebSocket.Server({ server });
 
+function set_all_pixels (color) {
+  let i;
+  let rgb = color.rgb
+  for (i = 0; i < actual_pixels.length; i++) {
+    actual_pixels[i][0] = rgb.g;
+    actual_pixels[i][1] = rgb.r;
+    actual_pixels[i][2] = rgb.b;
+  }
+}
+
+function all_pixels_off () {
+  let i, j;
+  for (i = 0; i < actual_pixels.length; i++) {
+    for (j = 0; j < 3; j++) {
+      actual_pixels[i][j] = 0;
+    }
+  }
+}
+
 wss.on('connection', function connection(ws, req) {
   const location = url.parse(req.url, true);
   // You might use location.query.access_token to authenticate or share sessions
@@ -32,15 +51,21 @@ wss.on('connection', function connection(ws, req) {
 
     let msgObj = JSON.parse(message);
 
-    if (msgObj && msgObj.hasOwnProperty('color')) {
-      let i;
-      let rgb = msgObj.color.rgb
-      for (i = 0; i < actual_pixels.length; i++) {
-        actual_pixels[i][0] = rgb.g;
-        actual_pixels[i][1] = rgb.r;
-        actual_pixels[i][2] = rgb.b;
+    if (msgObj && msgObj.hasOwnProperty('type')) {
+      switch (msgObj.type) {
+        case 'color':
+          set_all_pixels(msgObj.payload.color);
+          break;
+
+        case 'off':
+          all_pixels_off();
+          break;
+        
+        default:
+          break;
       }
     }
+
   });
 
   ws.send('something');

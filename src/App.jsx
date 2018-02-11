@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
 import './App.css';
 import { SketchPicker } from 'react-color';
+import 'bootstrap';
+import 'bootstrap/dist/css/bootstrap.css';
 
 
 class App extends Component {
@@ -21,18 +22,34 @@ class App extends Component {
     ws.onclose = () => console.log('WebSocket connection closed');
 
   }
-  handleColorChange (color, e) {
-    this.ws.send(JSON.stringify({
-      color: color
-    }));
+  dispatch (action) {
+    this.ws.send(JSON.stringify(action));
+  }
+  handleColorChange = (color, e) => {
+    this.dispatch({
+      type: 'color',
+      payload: {
+        color: color
+      }
+    });
+  }
+  handleOffClicked = () => {
+    this.dispatch({
+      type: 'off'
+    });
   }
   render() {
     return (
-      <div className="App">
-        <SketchPicker
-          color={this.state.color}
-          onChange={ this.handleColorChange.bind(this) }
-        />
+      <div className="container">
+        <div className="row">
+          <SketchPicker
+            color={this.state.color}
+            onChange={ this.handleColorChange }
+          />
+        </div>
+        <div className="row">
+          <button type="button" className="btn btn-primary" onClick={this.handleOffClicked}>off</button>
+        </div>
       </div>
     );
   }
