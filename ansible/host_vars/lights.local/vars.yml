@@ -7,4 +7,6 @@ fadecandy_config:
     devices:
       -
         type: fadecandy
-        map: [ 0, 0, 0, 512 ]
+        map: [
+          [ 0, 0, 0, 512 ]
+        ]
