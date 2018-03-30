@@ -45,6 +45,7 @@ class App extends Component {
           <SketchPicker
             color={this.state.color}
             onChange={ this.handleColorChange }
+            disableAlpha={true}
           />
         </div>
         <div className="row">
