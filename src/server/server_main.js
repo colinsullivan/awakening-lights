@@ -3,7 +3,7 @@ const http = require('http');
 const url = require('url');
 const WebSocket = require('ws');
 const app = express();
-import { configureStore } from './configureStore'
+import { configureStore } from '../common/configureStore'
 
 var OPC = new require('./opc'),
   client,

@@ -4,8 +4,6 @@ import 'bootstrap';
 import 'bootstrap/dist/css/bootstrap.css';
 import './App.css';
 
-import RangeTester from './RangeTester.jsx';
-
 
 class App extends Component {
   constructor(props) {
