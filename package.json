@@ -12,13 +12,16 @@
     "react": "^16.1.0",
     "react-color": "^2.13.8",
     "react-dom": "^16.1.0",
+    "react-redux": "^5.0.7",
     "react-scripts": "1.0.17",
+    "redux": "^3.7.2",
+    "redux-logger": "^3.0.6",
     "ws": "^3.3.1"
   },
   "scripts": {
     "start": "react-scripts start",
     "start_fadecandy": "./git_modules/fadecandy/bin/fcserver-osx",
-    "dev_start_server": "babel-node server_main.js",
+    "dev_start_server": "NODE_ENV=development babel-node src/server_main.js",
     "start_server": "node build/server/server_main.js",
     "build_react": "react-scripts build",
     "build_server": "babel src/server/ --out-dir build/server/",

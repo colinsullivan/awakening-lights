@@ -2,17 +2,15 @@ const express = require('express');
 const http = require('http');
 const url = require('url');
 const WebSocket = require('ws');
-
 const app = express();
+import { configureStore } from './configureStore'
 
 var OPC = new require('./opc'),
-  client = new OPC('localhost', 7890);
+  client,
+  store = configureStore();
 
-var actual_pixels = [];
-const numPixels = 80;
-let i;
-for (i = 0; i < numPixels; i++) {
-  actual_pixels.push([0, 0, 0]);
+if (process.env.NODE_ENV !== 'development') {
+  client = new OPC('localhost', 7890);
 }
 
 app.use(function (req, res) {
@@ -22,48 +20,20 @@ app.use(function (req, res) {
 const server = http.createServer(app);
 const wss = new WebSocket.Server({ server });
 
-function set_all_pixels (color) {
-  let i;
-  let rgb = color.rgb
-  for (i = 0; i < actual_pixels.length; i++) {
-    actual_pixels[i][0] = rgb.g;
-    actual_pixels[i][1] = rgb.r;
-    actual_pixels[i][2] = rgb.b;
-  }
-}
-
-function all_pixels_off () {
-  let i, j;
-  for (i = 0; i < actual_pixels.length; i++) {
-    for (j = 0; j < 3; j++) {
-      actual_pixels[i][j] = 0;
-    }
-  }
-}
-
 wss.on('connection', function connection(ws, req) {
+  console.log("connection!");
   const location = url.parse(req.url, true);
   // You might use location.query.access_token to authenticate or share sessions
   // or req.headers.cookie (see http://stackoverflow.com/a/16395220/151312)
 
   ws.on('message', function incoming(message) {
+    console.log("message");
     console.log('received: %s', message);
 
     let msgObj = JSON.parse(message);
 
     if (msgObj && msgObj.hasOwnProperty('type')) {
-      switch (msgObj.type) {
-        case 'color':
-          set_all_pixels(msgObj.payload.color);
-          break;
-
-        case 'off':
-          all_pixels_off();
-          break;
-        
-        default:
-          break;
-      }
+      store.dispatch(msgObj);
     }
 
   });
@@ -83,7 +53,7 @@ var pixel_map = function (pixel) {
 // main animation loop
 function draw () {
   var t = new Date().getTime(),
-    pixels = actual_pixels,
+    state = store.getState(),
     i;
 
   //currentAnimation.tick(t);
@@ -103,7 +73,7 @@ function draw () {
 
   client.mapPixels(
     pixel_map,
-    pixels
+    state.pixels
   );
   //if (process.env.SIMULATOR) {
     //client.mapPixels(
@@ -119,4 +89,6 @@ function draw () {
   //}
 
 }
-setInterval(draw, 30);
+if (client) {
+  setInterval(draw, 30);
+}

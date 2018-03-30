@@ -1,8 +1,10 @@
 import React, { Component } from 'react';
-import './App.css';
 import { SketchPicker } from 'react-color';
 import 'bootstrap';
 import 'bootstrap/dist/css/bootstrap.css';
+import './App.css';
+
+import RangeTester from './RangeTester.jsx';
 
 
 class App extends Component {
@@ -40,16 +42,24 @@ class App extends Component {
   }
   render() {
     return (
-      <div className="container">
+      <div className="container-fluid">
         <div className="row">
-          <SketchPicker
-            color={this.state.color}
-            onChange={ this.handleColorChange }
-            disableAlpha={true}
-          />
+          <div className="col-2 offset-10">
+            <button type="button" className="btn btn-primary" onClick={this.handleOffClicked}>off</button>
+          </div>
         </div>
         <div className="row">
-          <button type="button" className="btn btn-primary" onClick={this.handleOffClicked}>off</button>
+          <div className="col-4">
+            <SketchPicker
+              color={this.state.color}
+              onChange={ this.handleColorChange }
+              disableAlpha={true}
+            />
+          </div>
+          <div className="col-4">
+            <RangeTester />
+          </div>
+          <div className="col-4"></div>
         </div>
       </div>
     );
