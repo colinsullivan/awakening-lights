@@ -17,11 +17,13 @@ class App extends Component {
       }
     };
 
-    var ws = new WebSocket(`ws://${window.location.hostname}:8080`);
-    this.ws = ws;
-    ws.onerror = () => console.log('WebSocket error');
-    ws.onopen = () => console.log('WebSocket connection established');
-    ws.onclose = () => console.log('WebSocket connection closed');
+    if (process.env.NODE_ENV !== 'test') {
+      let ws = new window.WebSocket(`ws://${window.location.hostname}:8080`);
+      this.ws = ws;
+      ws.onerror = () => console.log('WebSocket error');
+      ws.onopen = () => console.log('WebSocket connection established');
+      ws.onclose = () => console.log('WebSocket connection closed');
+    }
 
   }
   dispatch (action) {
@@ -55,9 +57,6 @@ class App extends Component {
               onChange={ this.handleColorChange }
               disableAlpha={true}
             />
-          </div>
-          <div className="col-4">
-            <RangeTester />
           </div>
           <div className="col-4"></div>
         </div>
