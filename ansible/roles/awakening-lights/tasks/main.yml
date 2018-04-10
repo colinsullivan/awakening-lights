@@ -3,3 +3,9 @@
   git:
     repo: https://github.com/colinsullivan/awakening-lights.git
     dest: "{{ awakening_lights_install_path }}"
+
+- name: build
+  command: npm run build
+    args:
+      chdir: "{{ awakening_lights_install_path }}"
+    
