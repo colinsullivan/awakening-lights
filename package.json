@@ -3,8 +3,8 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "@babel/preset-env": "^7.0.0-beta.32",
     "babel-cli": "^6.26.0",
+    "babel-preset-env": "^1.6.1",
     "bootstrap": "^4.0.0",
     "express": "^4.16.2",
     "jquery": "^3.3.1",
@@ -21,7 +21,7 @@
   "scripts": {
     "start": "react-scripts start",
     "start_fadecandy": "./git_modules/fadecandy/bin/fcserver-osx",
-    "dev_start_server": "NODE_ENV=development babel-node src/server_main.js",
+    "dev_start_server": "NODE_ENV=development babel-node src/server/server_main.js",
     "start_server": "node build/server/server_main.js",
     "build_react": "react-scripts build",
     "build_server": "babel src/server --out-dir build/server && babel src/common --out-dir build/common",

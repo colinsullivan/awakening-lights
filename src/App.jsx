@@ -1,8 +1,10 @@
 import React, { Component } from 'react';
-import { SketchPicker } from 'react-color';
+import { connect } from 'react-redux';
 import 'bootstrap';
 import 'bootstrap/dist/css/bootstrap.css';
 import './App.css';
+
+import LightControl from './LightControl.jsx';
 
 
 class App extends Component {
@@ -15,52 +17,20 @@ class App extends Component {
       }
     };
 
-    if (process.env.NODE_ENV !== 'test') {
-      let ws = new window.WebSocket(`ws://${window.location.hostname}:8080`);
-      this.ws = ws;
-      ws.onerror = () => console.log('WebSocket error');
-      ws.onopen = () => console.log('WebSocket connection established');
-      ws.onclose = () => console.log('WebSocket connection closed');
-    }
 
   }
-  dispatch (action) {
-    this.ws.send(JSON.stringify(action));
+  dispatch = (action) => {
+    this.props.ws.send(JSON.stringify(action));
   }
-  handleColorChange = (color, e) => {
-    this.dispatch({
-      type: 'color',
-      payload: {
-        color: color
-      }
-    });
-  }
-  handleOffClicked = () => {
-    this.dispatch({
-      type: 'off'
-    });
-  }
+  
   render() {
     return (
       <div className="container-fluid">
-        <div className="row">
-          <div className="col-2 offset-10">
-            <button type="button" className="btn btn-primary" onClick={this.handleOffClicked}>off</button>
-          </div>
-        </div>
-        <div className="row">
-          <div className="col-4">
-            <SketchPicker
-              color={this.state.color}
-              onChange={ this.handleColorChange }
-              disableAlpha={true}
-            />
-          </div>
-          <div className="col-4"></div>
-        </div>
+        <LightControl startPixel={0} endPixel={49} dispatch={this.dispatch} />
+        <LightControl startPixel={50} endPixel={61} dispatch={this.dispatch} />
       </div>
     );
   }
 }
 
-export default App;
+export default connect()(App);

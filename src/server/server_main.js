@@ -1,9 +1,11 @@
-const express = require('express');
-const http = require('http');
-const url = require('url');
-const WebSocket = require('ws');
+import express from 'express'
+import http from 'http'
+import url from 'url'
+import WebSocket from 'ws'
+
+import configureStore from '../common/configureStore'
+
 const app = express();
-import { configureStore } from '../common/configureStore'
 
 var OPC = new require('./opc'),
   client,
