@@ -38,7 +38,12 @@ wss.on('connection', function connection(ws, req) {
 
   });
 
-  ws.send('something');
+  ws.on('error', () => console.log('errored'));
+
+  ws.send(JSON.stringify({
+    type: 'INIT_STATE',
+    payload: store.getState()
+  }));
 });
 
 server.listen(8080, function listening() {
