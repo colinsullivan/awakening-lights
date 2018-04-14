@@ -3,9 +3,11 @@
   git:
     repo: https://github.com/colinsullivan/awakening-lights.git
     dest: "{{ awakening_lights_install_path }}"
+  register: repo
 
 - name: build
-  command: npm run build
-    args:
-      chdir: "{{ awakening_lights_install_path }}"
+  command: "npm run build"
+  args:
+    chdir: "{{ awakening_lights_install_path }}"
+  when: repo.changed
     
