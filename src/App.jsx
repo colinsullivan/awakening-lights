@@ -20,8 +20,6 @@ class App extends Component {
   }
   
   render() {
-    console.log("this.props.websocketReadyState");
-    console.log(this.props.websocketReadyState);
     if (this.props.websocketReadyState === READY_STATES.OPEN) {
       return (
         <div className="container-fluid">
