@@ -12,9 +12,9 @@ import {
   WS_READYSTATE_UPDATE
 } from './actionTypes'
 
-export function websocketReadyStateChanged (connectionStatus) {
+export function websocketReadyStateChanged (readyState) {
   return {
     type: WS_READYSTATE_UPDATE,
-    payload: { connectionStatus }
+    payload: { readyState }
   };
 }

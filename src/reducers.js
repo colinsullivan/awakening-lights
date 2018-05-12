@@ -16,7 +16,7 @@ import {
 export function websocketReadyState (state = READY_STATES.CLOSED, action) {
   switch (action.type) {
     case WS_READYSTATE_UPDATE:
-      return action.payload;
+      return action.payload.readyState;
     default:
       return state;
   }
