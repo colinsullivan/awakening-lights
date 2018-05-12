@@ -4,9 +4,6 @@
   roles:
     - base
     - ssh
-    - fadecandy
+    - colinsullivan.fadecandy
     - nodejs
-- hosts: all
-  become: pi
-  roles:
-    - awakening-lights
+- import_playbook: site_deploy.yml
