@@ -51,14 +51,14 @@ class LightControl extends React.Component {
   render () {
     return (
       <div className="row">
-        <div className="col-4">
+        <div className="col-xs-12 col-md-3">
           <SketchPicker
             color={this.state.color}
             onChange={ this.handleColorChange }
             disableAlpha={true}
           />
         </div>
-        <div className="col-2">
+        <div className="col-xs-12 col-md-1">
           <button type="button" className="btn btn-primary" onClick={this.handleOffClicked}>off</button>
         </div>
       </div>
