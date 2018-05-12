@@ -9,8 +9,14 @@
  **/
 
 import React from 'react';
+import { connect } from 'react-redux';
 import { SketchPicker } from 'react-color';
 
+/**
+ *  @class        LightControl
+ *
+ *  @classdesc    Single color control component.
+ **/
 class LightControl extends React.Component {
   constructor(props) {
     super(props);
@@ -60,4 +66,4 @@ class LightControl extends React.Component {
   }
 }
 
-export default LightControl;
+export default connect()(LightControl);

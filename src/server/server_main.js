@@ -4,12 +4,15 @@ import url from 'url'
 import WebSocket from 'ws'
 
 import configureStore from '../common/configureStore'
+import { create_pixels } from '../common/model'
 
 const app = express();
 
 var OPC = new require('./opc'),
   client,
-  store = configureStore();
+  store = configureStore({
+    pixels: create_pixels(50 + 12)
+  });
 
 if (process.env.NODE_ENV !== 'development') {
   client = new OPC('localhost', 7890);
@@ -29,13 +32,13 @@ wss.on('connection', function connection(ws, req) {
   // or req.headers.cookie (see http://stackoverflow.com/a/16395220/151312)
 
   ws.on('message', function incoming(message) {
-    //console.log("message");
-    //console.log('received: %s', message);
+    console.log("message");
+    console.log('received: %s', message);
 
     let msgObj = JSON.parse(message);
 
-    if (msgObj && msgObj.hasOwnProperty('type')) {
-      store.dispatch(msgObj);
+    if (msgObj && msgObj.hasOwnProperty('action')) {
+      store.dispatch(msgObj.action);
     }
 
   });
@@ -43,8 +46,10 @@ wss.on('connection', function connection(ws, req) {
   ws.on('error', () => console.log('errored'));
 
   ws.send(JSON.stringify({
-    type: 'INIT_STATE',
-    payload: store.getState()
+    action: {
+      type: 'INIT_STATE',
+      payload: store.getState()
+    }
   }));
 });
 

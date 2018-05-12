@@ -12,22 +12,15 @@ import { createStore, applyMiddleware } from 'redux'
 import logger from 'redux-logger'
 
 import rootReducer from './reducers'
-import { create_pixels } from './model'
 
-export default function configureStore () {
-  var middleware,
-    initialState;
+export default function configureStore (initialState) {
+  var middleware;
 
   middleware = [];
 
   if (process.env.NODE_ENV === 'development') {
     middleware.push(logger);
   }
-
-  initialState = {
-    pixels: create_pixels(50 + 12)
-  };
-
 
   return createStore(rootReducer, initialState, applyMiddleware(...middleware));
 }

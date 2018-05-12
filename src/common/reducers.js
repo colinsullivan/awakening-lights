@@ -1,6 +1,16 @@
+/**
+ *  @file       reducers.js
+ *
+ *
+ *  @author     Colin Sullivan <colin [at] colin-sullivan.net>
+ *
+ *  @copyright  2018 Colin Sullivan
+ *  @license    Licensed under the MIT license.
+ **/
+
 import { combineReducers } from 'redux'
 
-function pixels (state = [], action) {
+export function pixels (state = [], action) {
   var i, j;
   let startPixel, endPixel;
   if (action.payload && action.payload.startPixel) {
