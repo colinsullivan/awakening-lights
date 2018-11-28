@@ -22,8 +22,9 @@ websocketDispatcher = new WebsocketDispatcher();
 
 middleware = [];
 
+middleware.push(websocketDispatcher.middleware);
+
 if (process.env.NODE_ENV === 'development') {
-  middleware.push(websocketDispatcher.middleware);
   middleware.push(logger);
 }
 
@@ -32,9 +33,6 @@ const store = createStore(combineReducers({
   websocketReadyState
 }), initialState, applyMiddleware(...middleware));
 websocketDispatcher.setStore(store);
-//var ws;
-//if (process.env.NODE_ENV !== 'test') {
-//}
 
 ReactDOM.render(
   <Provider store={store}>

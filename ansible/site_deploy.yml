@@ -1,5 +1,5 @@
 - hosts: all
-  become: pi
+  become: true
   roles:
     - awakening-lights
 

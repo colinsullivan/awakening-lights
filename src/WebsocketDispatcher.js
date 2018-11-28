@@ -54,7 +54,9 @@ class WebsocketDispatcher {
    *  Connect a new websocket, bind to event handlers.
    **/
   connect () {
-    this.ws = new window.WebSocket(`ws://${window.location.hostname}:8080`);
+    this.ws = new window.WebSocket(
+      `ws://${window.location.hostname}:${process.env.REACT_APP_SERVER_PORT}`
+    );
     this.ws.onerror = () => this.handle_error();
     this.ws.onopen = () => this.handle_opened();
     this.ws.onclose = () => this.handle_closed();

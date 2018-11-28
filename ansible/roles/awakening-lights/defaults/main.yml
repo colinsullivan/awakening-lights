@@ -1,1 +1,3 @@
 awakening_lights_install_path: /home/pi/awakening-lights
+awakening_lights_install_user: pi
+awakening_lights_server_port: 8082

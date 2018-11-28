@@ -1,0 +1,13 @@
+[Unit]
+AssertPathExists={{ awakening_lights_install_path }}
+
+[Service]
+WorkingDirectory={{ awakening_lights_install_path }}
+Environment=REACT_APP_SERVER_PORT={{awakening_lights_server_port}}
+ExecStart=/usr/bin/npm run start_server
+Restart=always
+PrivateTmp=true
+NoNewPrivileges=true
+
+[Install]
+WantedBy=default.target
