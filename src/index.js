@@ -12,9 +12,7 @@ import configureStore from "common/configureStore";
 const websocketDispatcher = new WebsocketDispatcher();
 
 const store = configureStore(
-  {
-    websocketReadyState
-  },
+  null,
   [websocketDispatcher.middleware]
 );
 websocketDispatcher.setStore(store);
