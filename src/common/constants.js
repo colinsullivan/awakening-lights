@@ -1,5 +1,5 @@
 /**
- *  @file       actionTypes.js
+ *  @file       constants.js
  *
  *
  *  @author     Colin Sullivan <colin [at] colin-sullivan.net>
@@ -8,4 +8,10 @@
  *  @license    Licensed under the MIT license.
  **/
 
-export const WS_READYSTATE_UPDATE = 'WS_READYSTATE_UPDATE';
+export const READY_STATES = {
+  CONNECTING: 0,
+  OPEN: 1,
+  CLOSING: 2,
+  CLOSED: 3
+};
+export const MAX_PIXEL_ADDRESS = 128*8;

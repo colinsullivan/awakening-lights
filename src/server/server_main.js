@@ -5,15 +5,14 @@ import WebSocket from 'ws'
 
 import configureStore from '../common/configureStore'
 import { create_pixels } from '../common/model'
+import { hydrateReceivedAction } from "../common/actions";
 
 const PORT = process.env.REACT_APP_SERVER_PORT;
 const app = express();
 
 var OPC = new require('./opc'),
   client,
-  store = configureStore({
-    pixels: create_pixels(50 + 12)
-  });
+  store = configureStore();
 
 if (process.env.NODE_ENV !== 'development') {
   client = new OPC('localhost', 7890);
@@ -41,7 +40,7 @@ wss.on('connection', function connection(ws, req) {
     let msgObj = JSON.parse(message);
 
     if (msgObj && msgObj.hasOwnProperty('action')) {
-      store.dispatch(msgObj.action);
+      store.dispatch(hydrateReceivedAction(msgObj.action));
     }
 
   });

@@ -5,5 +5,5 @@
     - base
     - ssh
     - colinsullivan.fadecandy
-    - nodejs
+    - geerlingguy.nodejs
 - import_playbook: site_deploy.yml

@@ -1,47 +1,8 @@
 ---
-- name: install / update awakening-lights
+- name: update and deploy
+  block:
+    - include_tasks: deploy.yml
   become_user: "{{ awakening_lights_install_user }}"
-  git:
-    repo: https://github.com/colinsullivan/awakening-lights.git
-    dest: "{{ awakening_lights_install_path }}"
-  register: repo
-
-- name: build
-  become_user: "{{ awakening_lights_install_user }}"
-  shell: "REACT_APP_SERVER_PORT={{awakening_lights_server_port}} npm run build"
-  args:
-    chdir: "{{ awakening_lights_install_path }}"
-  when: repo.changed
-  register: build
-
-- name: systemd unit file dir for user
-  become_user: "{{ awakening_lights_install_user }}"
-  file:
-    path: "/home/{{ awakening_lights_install_user }}/.config/systemd/user/"
-    state: directory
-
-- name: Install systemd unit file for user-level systemd service
-  become_user: "{{ awakening_lights_install_user }}"
-  template: 
-    src: awakening-lights-server.service.j2
-    dest: "/home/{{ awakening_lights_install_user }}/.config/systemd/user/awakening-lights-server.service"
-
-- name: Enable service
-  become_user: "{{ awakening_lights_install_user }}"
-  systemd:
-    daemon_reload: yes
-    name: awakening-lights-server
-    scope: user
-    enabled: true
-    state: started
-
-- name: restart service
-  become_user: "{{ awakening_lights_install_user }}"
-  systemd:
-    name: awakening-lights-server
-    scope: user
-    state: restarted
-  when: build.changed
 
 - name: Install nginx
   apt:
@@ -56,8 +17,8 @@
 
 - name: install lights.local nginx conf to serve react app
   template:
-    src: lights.local.conf.j2
-    dest: /etc/nginx/conf.d/lights.local.conf
+    src: lights.local.j2
+    dest: /etc/nginx/sites-enabled/lights.local
   register: lights_local_conf
 
 - name: reload nginx

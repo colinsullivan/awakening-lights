@@ -8,49 +8,84 @@
  *  @license    Licensed under the MIT license.
  **/
 
+import { READY_STATES } from './constants'
 import { combineReducers } from 'redux'
+import { colorPixelRange, offPixelRange } from "./model";
+import {
+  FIXTURE_OFF,
+  FIXTURE_COLOR,
+  WS_READYSTATE_UPDATE
+} from "./actionTypes";
 
-export function pixels (state = [], action) {
-  var i, j;
-  let startPixel, endPixel;
-  if (action.payload && action.payload.startPixel) {
-    startPixel = action.payload.startPixel;
-  } else {
-    startPixel = 0;
-  }
-
-  if (action.payload && action.payload.endPixel) {
-    endPixel = action.payload.endPixel;
-  } else {
-    endPixel = state.length - 1;
-  }
+export function websocketReadyState (state = READY_STATES.CLOSED, action) {
   switch (action.type) {
-    case 'INIT_STATE':
-      state = [...action.payload.pixels];
-      break;
-    case 'off':
-      for (i = startPixel; i <= endPixel; i++) {
-        for (j = 0; j < 3; j++) {
-          state[i][j] = 0;
-        }
-      }
-      break;
-
-    case 'color':
-      let rgb = action.payload.color.rgb
-      for (i = startPixel; i <= endPixel; i++) {
-        state[i][0] = rgb.g;
-        state[i][1] = rgb.r;
-        state[i][2] = rgb.b;
-      }
-      break;
-    
+    case WS_READYSTATE_UPDATE:
+      return action.payload.readyState;
     default:
-      break;
+      return state;
   }
-  return state;
 }
 
-export default combineReducers({
-  pixels  
-})
+export function pixels (state = [], action, { fixtures }) {
+  switch (action.type) {
+    case 'INIT_STATE':
+      return [...action.payload.pixels];
+
+    case FIXTURE_OFF:
+      return [...offPixelRange(state, fixtures[action.payload.id])];
+
+    case FIXTURE_COLOR:
+      return [...colorPixelRange(state, fixtures[action.payload.id])];
+    
+    default:
+      return state;
+  }
+}
+
+export function fixtureReducer (state, action) {
+  switch (action.type) {
+    case FIXTURE_OFF:
+      return {
+        ...state
+      };
+
+    case FIXTURE_COLOR:
+      const { color } = action.payload;
+      return {
+        ...state,
+        color
+      };
+    
+    default:
+      return state;
+  }
+}
+
+export function fixtures (state = {}, action) {
+  switch (action.type) {
+    case FIXTURE_COLOR:
+    case FIXTURE_OFF:
+      const { id } = action.payload;
+      return {
+        ...state,
+        [id]: fixtureReducer(state[id], action)
+      };
+    
+    default:
+      return state;
+  }
+}
+
+const bulkReducer = combineReducers({
+  websocketReadyState,
+  fixtures,
+  pixels: (state = []) => state
+});
+
+export default function (state, action) {
+
+  const newState = bulkReducer(state, action);
+  newState.pixels = pixels(state.pixels, action, newState);
+
+  return newState;
+}
