@@ -8,7 +8,7 @@
  *  @license    Licensed under the MIT license.
  **/
 
-import { uuidv5 } from "uuid/v5";
+import uuidv4 from "uuid/v4";
 import { websocketReadyStateChanged, hydrateReceivedAction } from './actions';
 
 /**
@@ -20,6 +20,7 @@ import { websocketReadyStateChanged, hydrateReceivedAction } from './actions';
 class WebsocketDispatcher {
   constructor() {
 
+    this.clientId = uuidv4();
     this.store = null;
     this.ws = null;
 
@@ -44,7 +45,7 @@ class WebsocketDispatcher {
    *  when it is dispatched from elsewhere.
    **/
   handle_middleware (store, next, action) {
-    if (this.ws && this.ws.readyState === window.WebSocket.OPEN && !action.received) {
+    if (this.ws && this.ws.readyState === window.WebSocket.OPEN && !action.receivedBy) {
       this.ws.send(JSON.stringify({
         action
       }));
@@ -71,7 +72,7 @@ class WebsocketDispatcher {
     let msgObj = JSON.parse(message.data);
 
     if (msgObj && msgObj.hasOwnProperty('action')) {
-      this.store.dispatch(hydrateReceivedAction(msgObj.action));
+      this.store.dispatch(hydrateReceivedAction(msgObj.action, this.clientId));
     }
   }
 

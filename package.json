@@ -32,25 +32,23 @@
     "eject": "react-scripts eject"
   },
   "eslintConfig": {
-    "extends": "eslint:recommended",
-    "parserOptions": {
-      "ecmaVersion": 6,
-      "sourceType": "module",
-      "ecmaFeatures": {
-        "impliedStrict": true
-      }
-    },
+    "extends": [
+      "eslint:recommended",
+      "plugin:react/recommended"
+    ],
+    "parser": "babel-eslint",
     "env": {
-      "browser": false,
-      "node": true,
+      "browser": true,
+      "node": false,
       "es6": true,
-      "mocha": true,
-      "jsx": true
+      "mocha": false
     },
     "rules": {
       "no-console": 0,
       "no-use-before-define": "error",
-      "block-scoped-var": "error"
+      "block-scoped-var": "error",
+      "no-case-declarations": 0,
+      "prefer-const": "error"
     }
   },
   "browserslist": {
@@ -71,8 +69,10 @@
     "@babel/node": "^7.8.3",
     "@babel/preset-env": "^7.8.3",
     "@testing-library/dom": "^6.11.0",
+    "babel-eslint": "^10.0.3",
     "concurrently": "^5.0.2",
     "eslint": "^6.8.0",
+    "eslint-plugin-react": "^7.18.0",
     "node-sass": "^4.13.0"
   },
   "babel": {

@@ -36,8 +36,8 @@ export function fixtureColor ({id, color}) {
   };
 }
 
-export function hydrateReceivedAction (action) {
-  action.received = true;
+export function hydrateReceivedAction (action, clientId) {
+  action.receivedBy = clientId;
   switch (action.type) {
     case FIXTURE_COLOR:
       action.payload.color = onecolor(action.payload.color);

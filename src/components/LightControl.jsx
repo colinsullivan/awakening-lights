@@ -10,7 +10,6 @@
 
 import React from "react";
 import { connect } from "react-redux";
-import { SketchPicker } from "react-color";
 import colorjoe from "colorjoe";
 
 import "colorjoe/css/colorjoe.css";
@@ -27,12 +26,6 @@ import { fixtureOff, fixtureColor } from "common/actions";
 class LightControl extends React.Component {
   constructor(props) {
     super(props);
-
-    this.state = {
-      color: {
-        hex: "#000000"
-      }
-    };
 
     this.handleColorChange = (color, e) => {
       this.props.dispatch(
@@ -51,7 +44,7 @@ class LightControl extends React.Component {
   componentDidMount() {
     this.colorControl = colorjoe.rgb(
       this.colorPickerRef.current,
-      this.state.color,
+      this.props.fixture.color,
       []
     );
     this.colorControl.on("change", this.handleColorChange);

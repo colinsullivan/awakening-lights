@@ -5,12 +5,9 @@ import { Provider } from "react-redux";
 import "./index.css";
 import App from "./App.jsx";
 import WebsocketDispatcher from "./common/WebsocketDispatcher.js";
-import { create_pixels } from "./common/model";
 
-import { pixels, websocketReadyState } from "common/reducers";
+import { websocketReadyState } from "common/reducers";
 import configureStore from "common/configureStore";
-
-import { createStore, applyMiddleware, combineReducers } from "redux";
 
 const websocketDispatcher = new WebsocketDispatcher();
 

@@ -19,7 +19,7 @@ export function create_fixture (id, startPixel, endPixel) {
 }
 
 export function colorPixelRange (state, { startPixel, endPixel, color }) {
-  let i, j;
+  let i;
   for (i = startPixel; i <= endPixel; i++) {
     state[i][0] = color.green() * 255;
     state[i][1] = color.red() * 255;

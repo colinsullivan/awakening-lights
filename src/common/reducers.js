@@ -27,19 +27,6 @@ export function websocketReadyState (state = READY_STATES.CLOSED, action) {
 }
 
 export function pixels (state = [], action, { fixtures }) {
-  var i, j;
-  let startPixel, endPixel;
-  if (action.payload && action.payload.startPixel) {
-    startPixel = action.payload.startPixel;
-  } else {
-    startPixel = 0;
-  }
-
-  if (action.payload && action.payload.endPixel) {
-    endPixel = action.payload.endPixel;
-  } else {
-    endPixel = state.length - 1;
-  }
   switch (action.type) {
     case 'INIT_STATE':
       return [...action.payload.pixels];
@@ -97,10 +84,8 @@ const bulkReducer = combineReducers({
 
 export default function (state, action) {
 
-  let newState = bulkReducer(state, action);
+  const newState = bulkReducer(state, action);
   newState.pixels = pixels(state.pixels, action, newState);
-  console.log("newState");
-  console.log(newState);
 
   return newState;
 }
