@@ -2,7 +2,7 @@ nodejs_version: "12.x"
 nodejs_npm_global_packages: [yarn]
 yarn_path: /usr/local/lib/npm/bin/yarn
 
-awakening_lights_deploy_version: develop
+awakening_lights_deploy_version: master
 
 fadecandy_config:
     listen: ["0.0.0.0", 7890]
