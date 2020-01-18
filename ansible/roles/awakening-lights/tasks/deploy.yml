@@ -10,12 +10,13 @@
   yarn:
     executable: "{{ yarn_path }}"
     path: "{{ awakening_lights_install_path }}"
+  register: repodeps
 
 - name: build
   shell: "REACT_APP_SERVER_PORT={{awakening_lights_server_port}} npm run build"
   args:
     chdir: "{{ awakening_lights_install_path }}"
-  when: repo.changed
+  when: repo.changed or repodeps.changed
   register: build
 
 - name: systemd unit file dir for user
