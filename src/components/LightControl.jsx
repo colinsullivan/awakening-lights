@@ -8,14 +8,16 @@
  *  @license    Licensed under the MIT license.
  **/
 
-import React from 'react';
-import { connect } from 'react-redux';
-import { SketchPicker } from 'react-color';
+import React from "react";
+import { connect } from "react-redux";
+import { SketchPicker } from "react-color";
 import colorjoe from "colorjoe";
 
 import "colorjoe/css/colorjoe.css";
 
 import "./LightControl.scss";
+
+import { fixtureOff, fixtureColor } from "common/actions";
 
 /**
  *  @class        LightControl
@@ -33,40 +35,45 @@ class LightControl extends React.Component {
     };
 
     this.handleColorChange = (color, e) => {
-      this.props.dispatch({
-        type: 'color',
-        payload: {
-          color: color,
-          startPixel: this.props.startPixel,
-          endPixel: this.props.endPixel
-        }
-      });
-    }
+      this.props.dispatch(fixtureColor({
+          ...this.props.fixture,
+          color
+      }));
+    };
     this.handleOffClicked = () => {
       this.props.dispatch({
-        type: 'off',
+        type: "off",
         payload: {
           startPixel: this.props.startPixel,
           endPixel: this.props.endPixel
         }
       });
-    }
+    };
 
     this.colorPickerRef = React.createRef();
-
   }
 
-  componentDidMount () {
-    this.colorControl = colorjoe.hsl(this.colorPickerRef.current, this.state.color, [
-    ]);
+  componentDidMount() {
+    this.colorControl = colorjoe.hsl(
+      this.colorPickerRef.current,
+      this.state.color,
+      []
+    );
+    this.colorControl.on("change", this.handleColorChange);
   }
 
-  render () {
+  render() {
     return (
       <div className="color-picker-container">
         <div ref={this.colorPickerRef} />
         <div>
-          <button type="button" className="btn btn-primary" onClick={this.handleOffClicked}>off</button>
+          <button
+            type="button"
+            className="btn btn-primary"
+            onClick={this.handleOffClicked}
+          >
+            off
+          </button>
         </div>
       </div>
     );

@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import './App.css';
 
 import LightControl from 'components/LightControl.jsx';
-import { READY_STATES } from './constants';
+import { READY_STATES } from './common/constants';
 
 class App extends Component {
   constructor(props) {
@@ -20,11 +20,14 @@ class App extends Component {
   }
   
   render() {
+    console.log("this.props.fixtures");
+    console.log(this.props.fixtures);
     if (this.props.websocketReadyState === READY_STATES.OPEN) {
       return (
         <div className="light-control-container">
-          <LightControl startPixel={0} endPixel={49} />
-          <LightControl startPixel={50} endPixel={61} />
+          {Object.keys(this.props.fixtures).map(id => 
+            <LightControl fixture={this.props.fixtures[id]} />
+          )}
         </div>
       );
     } else {
@@ -49,7 +52,8 @@ class App extends Component {
 
 const mapStateToProps = (state) => {
   return {
-    websocketReadyState: state.websocketReadyState
+    websocketReadyState: state.websocketReadyState,
+    fixtures: state.fixtures
   };
 };
 

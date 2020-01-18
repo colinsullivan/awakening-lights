@@ -10,7 +10,7 @@
 
 import React from 'react'
 
-import { MAX_PIXEL_ADDRESS } from './constants'
+import { MAX_PIXEL_ADDRESS } from './common/constants'
 
 
 class RangeTester extends React.Component {

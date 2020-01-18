@@ -8,19 +8,38 @@
  *  @license    Licensed under the MIT license.
  **/
 
-import { createStore, applyMiddleware } from 'redux'
-import logger from 'redux-logger'
+import { createStore, applyMiddleware } from "redux";
+import logger from "redux-logger";
+import _ from "lodash";
 
-import rootReducer from './reducers'
+import { create_pixels, create_fixture } from "./model";
 
-export default function configureStore (initialState) {
+import rootReducer from "./reducers";
+
+const fixturesList = [
+  create_fixture("workspace", 0, 49),
+  create_fixture("bedside", 50, 61)
+];
+const defaultState = {
+  fixtures: _.keyBy(fixturesList, "id"),
+  pixels: create_pixels(62)
+};
+
+export default function configureStore(
+  additionalState = {},
+  additionalMiddleware = []
+) {
+  let state = {
+    ...defaultState,
+    ...additionalState
+  };
   var middleware;
 
-  middleware = [];
+  middleware = additionalMiddleware;
 
-  if (process.env.NODE_ENV === 'development') {
+  if (process.env.NODE_ENV === "development") {
     middleware.push(logger);
   }
 
-  return createStore(rootReducer, initialState, applyMiddleware(...middleware));
+  return createStore(rootReducer, state, applyMiddleware(...middleware));
 }

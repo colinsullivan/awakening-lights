@@ -8,7 +8,8 @@
  *  @license    Licensed under the MIT license.
  **/
 
-import { websocketReadyStateChanged } from './actions';
+import { uuidv5 } from "uuid/v5";
+import { websocketReadyStateChanged, hydrateReceivedAction } from './actions';
 
 /**
  *  @class        WebsocketDispatcher
@@ -43,7 +44,7 @@ class WebsocketDispatcher {
    *  when it is dispatched from elsewhere.
    **/
   handle_middleware (store, next, action) {
-    if (this.ws && this.ws.readyState === WebSocket.OPEN) {
+    if (this.ws && this.ws.readyState === window.WebSocket.OPEN && !action.received) {
       this.ws.send(JSON.stringify({
         action
       }));
@@ -70,7 +71,7 @@ class WebsocketDispatcher {
     let msgObj = JSON.parse(message.data);
 
     if (msgObj && msgObj.hasOwnProperty('action')) {
-      this.store.dispatch(msgObj.action);
+      this.store.dispatch(hydrateReceivedAction(msgObj.action));
     }
   }
 
