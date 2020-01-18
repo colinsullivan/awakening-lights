@@ -1,0 +1,76 @@
+/**
+ *  @file       LightControl.jsx
+ *
+ *
+ *  @author     Colin Sullivan <colin [at] colin-sullivan.net>
+ *
+ *  @copyright  2018 Colin Sullivan
+ *  @license    Licensed under the MIT license.
+ **/
+
+import React from 'react';
+import { connect } from 'react-redux';
+import { SketchPicker } from 'react-color';
+import colorjoe from "colorjoe";
+
+import "colorjoe/css/colorjoe.css";
+
+import "./LightControl.scss";
+
+/**
+ *  @class        LightControl
+ *
+ *  @classdesc    Single color control component.
+ **/
+class LightControl extends React.Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      color: {
+        hex: "#000000"
+      }
+    };
+
+    this.handleColorChange = (color, e) => {
+      this.props.dispatch({
+        type: 'color',
+        payload: {
+          color: color,
+          startPixel: this.props.startPixel,
+          endPixel: this.props.endPixel
+        }
+      });
+    }
+    this.handleOffClicked = () => {
+      this.props.dispatch({
+        type: 'off',
+        payload: {
+          startPixel: this.props.startPixel,
+          endPixel: this.props.endPixel
+        }
+      });
+    }
+
+    this.colorPickerRef = React.createRef();
+
+  }
+
+  componentDidMount () {
+    this.colorControl = colorjoe.hsl(this.colorPickerRef.current, this.state.color, [
+    ]);
+  }
+
+  render () {
+    return (
+      <div className="color-picker-container">
+        <div ref={this.colorPickerRef} />
+        <div>
+          <button type="button" className="btn btn-primary" onClick={this.handleOffClicked}>off</button>
+        </div>
+      </div>
+    );
+  }
+}
+
+export default connect()(LightControl);

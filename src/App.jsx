@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import 'bootstrap';
-import 'bootstrap/dist/css/bootstrap.css';
+//import 'bootstrap';
+//import 'bootstrap/dist/css/bootstrap.css';
 import './App.css';
 
-import LightControl from './LightControl.jsx';
+import LightControl from 'components/LightControl.jsx';
 import { READY_STATES } from './constants';
 
 class App extends Component {
@@ -22,7 +22,7 @@ class App extends Component {
   render() {
     if (this.props.websocketReadyState === READY_STATES.OPEN) {
       return (
-        <div className="container-fluid">
+        <div className="light-control-container">
           <LightControl startPixel={0} endPixel={49} />
           <LightControl startPixel={50} endPixel={61} />
         </div>
