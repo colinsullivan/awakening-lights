@@ -35,26 +35,21 @@ class LightControl extends React.Component {
     };
 
     this.handleColorChange = (color, e) => {
-      this.props.dispatch(fixtureColor({
+      this.props.dispatch(
+        fixtureColor({
           ...this.props.fixture,
           color
-      }));
+        })
+      );
     };
-    this.handleOffClicked = () => {
-      this.props.dispatch({
-        type: "off",
-        payload: {
-          startPixel: this.props.startPixel,
-          endPixel: this.props.endPixel
-        }
-      });
-    };
+    this.handleOffClicked = () =>
+      this.props.dispatch(fixtureOff(this.props.fixture));
 
     this.colorPickerRef = React.createRef();
   }
 
   componentDidMount() {
-    this.colorControl = colorjoe.hsl(
+    this.colorControl = colorjoe.rgb(
       this.colorPickerRef.current,
       this.state.color,
       []
@@ -68,8 +63,6 @@ class LightControl extends React.Component {
         <div ref={this.colorPickerRef} />
         <div>
           <button
-            type="button"
-            className="btn btn-primary"
             onClick={this.handleOffClicked}
           >
             off
