@@ -1,0 +1,45 @@
+---
+- name: install / update awakening-lights
+  git:
+    repo: https://github.com/colinsullivan/awakening-lights.git
+    dest: "{{ awakening_lights_install_path }}"
+    version: "{{ awakening_lights_deploy_version }}"
+  register: repo
+
+- name: Update app dependencies
+  yarn:
+    executable: "{{ yarn_path }}"
+    path: "{{ awakening_lights_install_path }}"
+
+- name: build
+  shell: "REACT_APP_SERVER_PORT={{awakening_lights_server_port}} npm run build"
+  args:
+    chdir: "{{ awakening_lights_install_path }}"
+  when: repo.changed
+  register: build
+
+- name: systemd unit file dir for user
+  file:
+    path: "/home/{{ awakening_lights_install_user }}/.config/systemd/user/"
+    state: directory
+
+- name: Install systemd unit file for user-level systemd service
+  template: 
+    src: awakening-lights-server.service.j2
+    dest: "/home/{{ awakening_lights_install_user }}/.config/systemd/user/awakening-lights-server.service"
+
+- name: Enable service
+  systemd:
+    daemon_reload: yes
+    name: awakening-lights-server
+    scope: user
+    enabled: true
+    state: started
+
+- name: restart service
+  systemd:
+    name: awakening-lights-server
+    scope: user
+    state: restarted
+  when: build.changed
+
