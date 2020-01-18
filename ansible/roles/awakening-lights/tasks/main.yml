@@ -1,7 +1,8 @@
 ---
 - name: update and deploy
+  block:
+    - include_tasks: deploy.yml
   become_user: "{{ awakening_lights_install_user }}"
-  include_tasks: deploy.yml
 
 - name: Install nginx
   apt:
@@ -16,8 +17,8 @@
 
 - name: install lights.local nginx conf to serve react app
   template:
-    src: lights.local.conf.j2
-    dest: /etc/nginx/conf.d/lights.local.conf
+    src: lights.local.j2
+    dest: /etc/nginx/sites-enabled/lights.local
   register: lights_local_conf
 
 - name: reload nginx
