@@ -6,7 +6,6 @@ import "./index.css";
 import App from "./App.jsx";
 import WebsocketDispatcher from "./common/WebsocketDispatcher.js";
 
-import { websocketReadyState } from "common/reducers";
 import configureStore from "common/configureStore";
 
 const websocketDispatcher = new WebsocketDispatcher();
