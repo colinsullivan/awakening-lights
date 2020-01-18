@@ -3,25 +3,25 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "babel-cli": "^6.26.0",
-    "babel-preset-env": "^1.6.1",
-    "bootstrap": "^4.0.0",
-    "express": "^4.16.2",
-    "jquery": "^3.3.1",
-    "popper.js": "^1.12.9",
-    "react": "^16.1.0",
-    "react-color": "^2.13.8",
-    "react-dom": "^16.1.0",
-    "react-redux": "^5.0.7",
-    "react-scripts": "1.0.17",
-    "redux": "^3.7.2",
+    "@testing-library/jest-dom": "^4.2.4",
+    "@testing-library/react": "^9.3.2",
+    "@testing-library/user-event": "^7.1.2",
+    "bootstrap": "^4.4.1",
+    "colorjoe": "^4.1.0",
+    "react": "^16.12.0",
+    "react-color": "^2.18.0",
+    "react-dom": "^16.12.0",
+    "react-redux": "^7.1.3",
+    "react-scripts": "3.3.0",
+    "redux": "^4.0.5",
     "redux-logger": "^3.0.6",
-    "ws": "^3.3.1"
+    "ws": "^7.2.1"
   },
   "scripts": {
-    "start": "react-scripts start",
+    "start_react": "react-scripts start",
     "start_fadecandy": "./git_modules/fadecandy/bin/fcserver-osx",
-    "dev_start_server": "NODE_ENV=development babel-node src/server/server_main.js",
+    "start_server_dev": "NODE_ENV=development babel-node src/server/server_main.js",
+    "start": "concurrently \"npm run start_react\" \"npm run start_server_dev\"",
     "start_server": "node build/server/server_main.js",
     "build_react": "react-scripts build",
     "build_server": "babel src/server --out-dir build/server && babel src/common --out-dir build/common",
@@ -29,12 +29,6 @@
     "test": "npm run build && react-scripts test --env=jsdom --coverage",
     "eject": "react-scripts eject"
   },
-  "babel": {
-    "presets": [
-      "env"
-    ]
-  },
-  "proxy": "http://localhost:8080",
   "eslintConfig": {
     "extends": "eslint:recommended",
     "parserOptions": {
@@ -56,5 +50,33 @@
       "no-use-before-define": "error",
       "block-scoped-var": "error"
     }
-  }
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  },
+  "devDependencies": {
+    "@babel/cli": "^7.8.3",
+    "@babel/core": "^7.8.3",
+    "@babel/node": "^7.8.3",
+    "@babel/preset-env": "^7.8.3",
+    "@testing-library/dom": "^6.11.0",
+    "concurrently": "^5.0.2",
+    "eslint": "^6.8.0",
+    "node-sass": "^4.13.0"
+  },
+  "babel": {
+    "presets": [
+      "@babel/preset-env"
+    ]
+  },
+  "proxy": "http://localhost:8080"
 }
