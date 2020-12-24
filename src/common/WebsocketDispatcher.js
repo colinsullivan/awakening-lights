@@ -69,7 +69,7 @@ class WebsocketDispatcher {
    *  When a new message comes in, if it is an action, dispatch that action.
    **/
   handle_message (message) {
-    let msgObj = JSON.parse(message.data);
+    const msgObj = JSON.parse(message.data);
 
     if (msgObj && msgObj.hasOwnProperty('action')) {
       this.store.dispatch(hydrateReceivedAction(msgObj.action, this.clientId));
@@ -87,6 +87,7 @@ class WebsocketDispatcher {
   }
   // when closed, wait 1 second and connect a new WebSocket
   handle_closed () {
+    console.log("closed");
     this.update_readystate();
     setTimeout(() => this.connect(), 1000);
   }

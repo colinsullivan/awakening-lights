@@ -4,7 +4,6 @@ import url from 'url'
 import WebSocket from 'ws'
 
 import configureStore from '../common/configureStore'
-import { create_pixels } from '../common/model'
 import { hydrateReceivedAction } from "../common/actions";
 
 const PORT = process.env.REACT_APP_SERVER_PORT;
@@ -18,7 +17,7 @@ if (process.env.NODE_ENV !== 'development') {
   client = new OPC('localhost', 7890);
 }
 
-app.use(function (req, res) {
+app.use(function (_req, res) {
   res.send({ msg: "hello" });
 });
 
@@ -26,8 +25,7 @@ const server = http.createServer(app);
 const wss = new WebSocket.Server({ server });
 
 wss.on('connection', function connection(ws, req) {
-  console.log("connection!");
-  const location = url.parse(req.url, true);
+  //const location = url.parse(req.url, true);
   // You might use location.query.access_token to authenticate or share sessions
   // or req.headers.cookie (see http://stackoverflow.com/a/16395220/151312)
 
@@ -66,9 +64,7 @@ var pixel_map = function (pixel) {
 };
 // main animation loop
 function draw () {
-  var t = new Date().getTime(),
-    state = store.getState(),
-    i;
+  const state = store.getState();
 
 
   client.mapPixels(

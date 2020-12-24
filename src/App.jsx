@@ -20,13 +20,11 @@ class App extends Component {
   }
   
   render() {
-    console.log("this.props.fixtures");
-    console.log(this.props.fixtures);
     if (this.props.websocketReadyState === READY_STATES.OPEN) {
       return (
         <div className="light-control-container">
           {Object.keys(this.props.fixtures).map(id => 
-            <LightControl fixture={this.props.fixtures[id]} />
+            <LightControl key={id} fixture={this.props.fixtures[id]} />
           )}
         </div>
       );
@@ -38,7 +36,7 @@ class App extends Component {
 							<div className="card bg-light mt-3">
 								<div className="card-header">Loading..</div>
 								<div className="card-body">
-									<h5 className="card-title">Connecting to {window.location.host}...</h5>
+									<h5 className="card-title">Connecting...</h5>
 									<p className="card-text"></p>
 								</div>
 							</div>

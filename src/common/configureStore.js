@@ -18,18 +18,19 @@ import rootReducer from "./reducers";
 
 const fixturesList = [
   create_fixture("workspace", 0, 49),
-  create_fixture("bedside", 50, 61)
+  create_fixture("bedside", 50, 61),
+  create_fixture("abovedesk", 62, 121)
 ];
 const defaultState = {
   fixtures: _.keyBy(fixturesList, "id"),
-  pixels: create_pixels(62)
+  pixels: create_pixels(122)
 };
 
 export default function configureStore(
   additionalState = {},
   additionalMiddleware = []
 ) {
-  let state = {
+  const state = {
     ...defaultState,
     ...additionalState
   };
