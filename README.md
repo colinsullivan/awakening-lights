@@ -1,4 +1,5 @@
 # awakening-lights
+![build status](https://github.com/colinsullivan/awakening-lights/workflows/Build/badge.svg "build status")
 A web-based system for controlling lights (WS2811 via Fadecandy).
 
 ## UI
